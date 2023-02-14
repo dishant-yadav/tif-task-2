@@ -20,7 +20,6 @@ const JobDetailsForm: React.FC<{
         jobTitle: Yup.string().required("Job Title is required"),
         jobDetails: Yup.string().required("Job Details is required"),
         jobLocation: Yup.string().required("Job Location is required"),
-        jobPosition: Yup.string().required("Job position is required"),
       }),
       onSubmit: (values) => {
         console.log({ values });
