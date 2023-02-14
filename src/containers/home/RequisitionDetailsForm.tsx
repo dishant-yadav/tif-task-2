@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { ChangeEvent, FormEvent } from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { useData } from "./DataProvider";
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -43,6 +44,8 @@ const RequisitionDetailsForm: React.FC<{
     },
   });
 
+  const { state, setState } = useData();
+
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
@@ -50,7 +53,16 @@ const RequisitionDetailsForm: React.FC<{
           label="Requisition Title"
           placeholder="Enter requisition title"
           name="requisitionTitle"
-          onChange={handleChange}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            handleChange(e);
+            setState({
+              ...state,
+              requisitionDetails: {
+                ...state.requisitionDetails,
+                [e.currentTarget.name]: e.currentTarget.value,
+              },
+            });
+          }}
           onBlur={handleBlur}
           value={values?.requisitionTitle}
           error={errors?.requisitionTitle}
@@ -60,7 +72,16 @@ const RequisitionDetailsForm: React.FC<{
           label="Number of openings"
           placeholder="Enter number of openings"
           name="noOfOpenings"
-          onChange={handleChange}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            handleChange(e);
+            setState({
+              ...state,
+              requisitionDetails: {
+                ...state.requisitionDetails,
+                [e.currentTarget.name]: e.currentTarget.value,
+              },
+            });
+          }}
           onBlur={handleBlur}
           value={values?.noOfOpenings}
           error={errors?.noOfOpenings}
@@ -71,7 +92,16 @@ const RequisitionDetailsForm: React.FC<{
           name="gender"
           placeholder="Select gender"
           options={genderOptions}
-          onChange={setFieldValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setFieldValue("gender", "Male");
+            setState({
+              ...state,
+              requisitionDetails: {
+                ...state.requisitionDetails,
+                gender: "ma",
+              },
+            });
+          }}
           onBlur={setFieldTouched}
           error={errors.gender}
           touched={touched.gender}
@@ -82,14 +112,26 @@ const RequisitionDetailsForm: React.FC<{
           name="urgency"
           placeholder="Select urgency"
           options={urgencyOptions}
-          onChange={setFieldValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setFieldValue("urgency", "immediate");
+            setState({
+              ...state,
+              requisitionDetails: {
+                ...state.requisitionDetails,
+                urgency: "immediate",
+              },
+            });
+          }}
           onBlur={setFieldTouched}
           error={errors.urgency}
           touched={touched.urgency}
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button colorScheme="red" type="submit">
+          <Button
+            colorScheme="red"
+            type="submit"
+          >
             Next
           </Button>
         </Flex>

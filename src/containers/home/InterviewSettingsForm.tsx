@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
 import { PageNumbers } from "../../interface/home";
@@ -10,6 +10,7 @@ import {
   interviewModeOptions,
 } from "./constants";
 import * as Yup from "yup";
+import { useData } from "./DataProvider";
 
 const InterviewDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -42,6 +43,8 @@ const InterviewDetailsForm: React.FC<{
     },
   });
 
+  const { state, setState } = useData();
+
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
@@ -50,7 +53,16 @@ const InterviewDetailsForm: React.FC<{
           placeholder="Select interview mode"
           name="interviewMode"
           options={interviewModeOptions}
-          onChange={setFieldValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setFieldValue("interviewMode", "offline");
+            setState({
+              ...state,
+              interviewSettings: {
+                ...state.interviewSettings,
+                interviewMode: "offline",
+              },
+            });
+          }}
           onBlur={setFieldTouched}
           value={values?.interviewMode}
           error={errors?.interviewMode}
@@ -61,18 +73,36 @@ const InterviewDetailsForm: React.FC<{
           placeholder="Select interview duration"
           name="interviewDuration"
           options={interviewDurationOptions}
-          onChange={setFieldValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setFieldValue("interviewDuration", "short");
+            setState({
+              ...state,
+              interviewSettings: {
+                ...state.interviewSettings,
+                interviewDuration: "short",
+              },
+            });
+          }}
           onBlur={setFieldTouched}
           value={values?.interviewDuration}
           error={errors?.interviewDuration}
           touched={touched?.interviewDuration}
         />
         <FormSelect
-          label="Job Location"
+          label="Interview Language"
           name="interviewLanguage"
           placeholder="Select interview language"
           options={interviewLanguageOptions}
-          onChange={setFieldValue}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            setFieldValue("interviewLanguage", "English");
+            setState({
+              ...state,
+              interviewSettings: {
+                ...state.interviewSettings,
+                interviewLanguage: "English",
+              },
+            });
+          }}
           onBlur={setFieldTouched}
           error={errors.interviewLanguage}
           touched={touched.interviewLanguage}
