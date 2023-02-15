@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
-import { useData } from "./DataProvider";
+import { useData, initialValues } from "./DataProvider";
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -44,6 +44,7 @@ const RequisitionDetailsForm: React.FC<{
     },
   });
 
+  // @ts-ignore
   const { state, setState } = useData();
 
   return (
@@ -128,10 +129,7 @@ const RequisitionDetailsForm: React.FC<{
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button
-            colorScheme="red"
-            type="submit"
-          >
+          <Button colorScheme="red" type="submit">
             Next
           </Button>
         </Flex>

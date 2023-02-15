@@ -27,6 +27,7 @@ const JobDetailsForm: React.FC<{
       },
     });
 
+  // @ts-ignore
   const { state, setState } = useData();
 
   return (

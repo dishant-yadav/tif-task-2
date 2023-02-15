@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-const initialValues = {
+export const initialValues = {
   requisitionDetails: {
     gender: "",
     noOfOpenings: 0,

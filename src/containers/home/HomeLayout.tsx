@@ -27,6 +27,8 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
 };
 
 const HomeLayout = () => {
+  
+  // @ts-ignore
   const { state, setState } = useData();
 
   const { requisitionDetails, jobDetails, interviewSettings } = state;
