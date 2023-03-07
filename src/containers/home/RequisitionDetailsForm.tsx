@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -45,7 +45,13 @@ const RequisitionDetailsForm: React.FC<{
   });
 
   // @ts-ignore
-  const { state, setState } = useData();
+  const [state, setState] = useState([]);
+  const [Name, setName] = useState("");
+
+  const setValue = (value: any) => {
+    setName(value.label);
+    console.log(value.label);
+  };
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -56,13 +62,13 @@ const RequisitionDetailsForm: React.FC<{
           name="requisitionTitle"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             handleChange(e);
-            setState({
-              ...state,
-              requisitionDetails: {
-                ...state.requisitionDetails,
-                [e.currentTarget.name]: e.currentTarget.value,
-              },
-            });
+            // setState({
+            //   ...state,
+            //   requisitionDetails: {
+            //     ...state.requisitionDetails,
+            //     [e.currentTarget.name]: e.currentTarget.value,
+            //   },
+            // });
           }}
           onBlur={handleBlur}
           value={values?.requisitionTitle}
@@ -75,13 +81,13 @@ const RequisitionDetailsForm: React.FC<{
           name="noOfOpenings"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             handleChange(e);
-            setState({
-              ...state,
-              requisitionDetails: {
-                ...state.requisitionDetails,
-                [e.currentTarget.name]: e.currentTarget.value,
-              },
-            });
+            // setState({
+            //   ...state,
+            //   requisitionDetails: {
+            //     ...state.requisitionDetails,
+            //     [e.currentTarget.name]: e.currentTarget.value,
+            //   },
+            // });
           }}
           onBlur={handleBlur}
           value={values?.noOfOpenings}
@@ -93,15 +99,18 @@ const RequisitionDetailsForm: React.FC<{
           name="gender"
           placeholder="Select gender"
           options={genderOptions}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+          postValue={(value: any) => setValue(value)}
+          onChange={(name: any, value: any) => {
             setFieldValue("gender", "Male");
-            setState({
-              ...state,
-              requisitionDetails: {
-                ...state.requisitionDetails,
-                gender: "ma",
-              },
-            });
+            setName(name);
+            console.log(Name);
+            // setState({
+            //   ...state,
+            //   requisitionDetails: {
+            //     ...state.requisitionDetails,
+            //     gender: "ma",
+            //   },
+            // });
           }}
           onBlur={setFieldTouched}
           error={errors.gender}
@@ -115,14 +124,15 @@ const RequisitionDetailsForm: React.FC<{
           options={urgencyOptions}
           onChange={(e: ChangeEvent<HTMLSelectElement>) => {
             setFieldValue("urgency", "immediate");
-            setState({
-              ...state,
-              requisitionDetails: {
-                ...state.requisitionDetails,
-                urgency: "immediate",
-              },
-            });
+            // setState({
+            //   ...state,
+            //   requisitionDetails: {
+            //     ...state.requisitionDetails,
+            //     urgency: "immediate",
+            //   },
+            // });
           }}
+          postValue={(value: any) => setValue(value)}
           onBlur={setFieldTouched}
           error={errors.urgency}
           touched={touched.urgency}

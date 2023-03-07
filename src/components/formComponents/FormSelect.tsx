@@ -10,6 +10,7 @@ interface IFormSelectProps
   selectProps?: Props;
   onChange?: any;
   onBlur?: any;
+  postValue?: any;
 }
 
 const FormSelect: React.FC<IFormSelectProps> = ({
@@ -26,12 +27,13 @@ const FormSelect: React.FC<IFormSelectProps> = ({
   helperText,
   wrapperProps = {},
   options,
+  postValue,
 }) => {
   const theme = useTheme();
 
   const handleChange = (value: any) => {
     onChange && onChange(name, value?.value);
-    console.log(value);
+    postValue(value);
   };
   const handleBlur = () => {
     onBlur && onBlur(name, true);
